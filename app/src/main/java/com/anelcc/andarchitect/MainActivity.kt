@@ -2,7 +2,6 @@ package com.anelcc.andarchitect
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
@@ -24,6 +23,12 @@ And this tells you that when the user presses the home button you aren't complet
 And now I'll show what happens when you change a device's orientation.
 I'll turn it sideways and that creates an entire life cycle,
 including pausing, stopping, and destroying, and then creating, starting, and resuming.
+
+The lifecycle events can be handled in a LifecycleObserver, and your data management logic can go in a ViewModel class.
+There are also some limitations to know about.
+For example, the LifecycleObserver should not directly affect anything in the user interface.
+The more you separate the concerns of these different kind of classes,
+the more maintainable your Android app will be over time.
 */
 class MainActivity : AppCompatActivity() {
 
@@ -37,31 +42,7 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
-        Log.i(LOG_TAG, "onCreate")
-    }
 
-    override fun onStart() {
-        super.onStart()
-        Log.i(LOG_TAG, "onStart")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.i(LOG_TAG, "onResume")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.i(LOG_TAG, "onPause")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.i(LOG_TAG, "onStop")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.i(LOG_TAG, "onDestroy")
+        lifecycle.addObserver(MyLifecycleObserver())
     }
 }
