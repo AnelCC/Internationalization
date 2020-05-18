@@ -25,6 +25,14 @@ android {
 
 }
 
+/*
+Synthetic view bindings are a part of the Android Extensions that are included automatically in
+a new project that uses Kotlin as its primary language.
+You can see the declaration in your Gradle build file for the app module.
+The reference is androidx.core:core-ktx.
+Synthetic view references are incredibly convenient,
+and one of the many benefits of programming in Kotlin for Android.
+*/
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
