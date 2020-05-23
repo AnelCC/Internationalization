@@ -14,6 +14,8 @@ this is called separations of concerns.
 How to separate concerns among different kinds of classes.
 */
 class MainActivity : AppCompatActivity() {
+    private lateinit var dice: IntArray
+    private lateinit var headlineText: String
 
     private val imageViews by lazy {
         arrayOf<ImageView>(
@@ -39,19 +41,21 @@ class MainActivity : AppCompatActivity() {
 
         fab.setOnClickListener { fabClickHandler() }
 
-        headline.text = getString(R.string.welcome)
+        headlineText = savedInstanceState?.getString(HEADLINE_TEXT)
+            ?: getString(R.string.welcome)
+        dice = savedInstanceState?.getIntArray(DICE_COLLECTION)
+            ?: intArrayOf(6, 6, 6, 6, 6)
 
-        for (imageView in imageViews) {
-            imageView.setImageResource(R.drawable.die_6)
-        }
+        updateDisplay()
     }
 
     private fun fabClickHandler() {
-        val dice = DiceHelper.rollDice()
-        updateDisplay(dice)
+        dice = DiceHelper.rollDice()
+        headlineText = DiceHelper.evaluateDice(this, dice)
+        updateDisplay()
     }
 
-    private fun updateDisplay(dice: IntArray) {
+    private fun updateDisplay() {
         for (i in 0 until imageViews.size) {
             val drawableId = when (dice[i]) {
                 1 -> R.drawable.die_1
@@ -65,5 +69,11 @@ class MainActivity : AppCompatActivity() {
             imageViews[i].setImageResource(drawableId)
         }
         headline.text = DiceHelper.evaluateDice(this, dice)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState?.putString(HEADLINE_TEXT, headlineText)
+        outState?.putIntArray(DICE_COLLECTION, dice)
+        super.onSaveInstanceState(outState)
     }
 }
