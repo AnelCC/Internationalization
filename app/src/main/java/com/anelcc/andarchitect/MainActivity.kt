@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.ViewModelProviders
+import com.anelcc.andarchitect.viewmodel.DiceViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 /*
@@ -14,6 +16,7 @@ this is called separations of concerns.
 How to separate concerns among different kinds of classes.
 */
 class MainActivity : AppCompatActivity() {
+    private lateinit var viewModel : DiceViewModel
     private lateinit var dice: IntArray
     private lateinit var headlineText: String
 
@@ -38,6 +41,8 @@ class MainActivity : AppCompatActivity() {
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+
+        viewModel = ViewModelProviders.of(this).get(DiceViewModel::class.java)
 
         fab.setOnClickListener { fabClickHandler() }
 
